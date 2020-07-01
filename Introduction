@@ -1,0 +1,18 @@
+Advantages of maven
+1) Quick project setup
+    a) Maven bring conventions over configuration, thus reducing setup time
+2) Projects are modular
+3) Mature dependency management
+4) Mature project build lifecycle
+5) Robust plugin community
+
+Dis Advantages of Maven
+1) Projects are described in XML document, contrained by XML schema
+    a) some consider XML dated
+2) Gradle uses a Groovy DSL, which can offer greated build flexibility
+    a) Rare the additional flexibility is needed
+
+Slack channel
+https://app.slack.com/client/T85Q0SJ8P/learning-slack
+email - ss0315345@gmail.com
+password - Newton@123456789
