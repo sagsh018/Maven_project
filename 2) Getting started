@@ -26,3 +26,6 @@ Then add the path to it in system variables for windows PATH variable. Below is 
 Then you can check the version of maven using below command
 ==> mvn --version
 
+Maven installation on Linux
+===========================
+
