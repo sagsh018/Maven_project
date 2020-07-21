@@ -1,0 +1,28 @@
+OS requirements
+===============
+1) All major OS platfrorm are supported
+    a) windows -- 10 or 7
+    b) Mac OS
+    c) Linux -- any recent release is fine.
+
+Java requirements
+=================
+1) Java 11 or higher required
+2) openJDK required
+
+IDE requirements
+===================
+IntelliJ
+
+Downloaded a maven Binary for version 3.3 + 
+==> https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
+
+extract the zip file in current location 
+==> /c/Users/Sagar/projects/Maven_project
+
+Then add the path to it in system variables for windows PATH variable. Below is the path
+==> /c/Users/Sagar/projects/Maven_project/apache-maven-3.6.3/bin
+
+Then you can check the version of maven using below command
+==> mvn --version
+
