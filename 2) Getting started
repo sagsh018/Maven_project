@@ -29,3 +29,21 @@ Then you can check the version of maven using below command
 Maven installation on Linux
 ===========================
 
+1) for this we are going to make use of tomcat.local VM running on VMware 
+2) we can check the status of jdk and java version using below command
+    java --version
+
+    openjdk 11.0.7 2020-04-14 LTS
+    OpenJDK Runtime Environment Corretto-11.0.7.10.1 (build 11.0.7+10-LTS)
+    OpenJDK 64-Bit Server VM Corretto-11.0.7.10.1 (build 11.0.7+10-LTS, mixed mode)
+3) Also we can check the java home set using
+    echo $JAVA_HOME
+4) then we can download the maven binary from below link
+    https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
+5) After downloading the binary from above link unzip the file in /tmp
+    unzip /tmp/apache-maven-3.6.3-bin.zip
+6) Then mv the /tmp/apache-maven-3.6.3 to /opt
+7) then ad the path to maven bin to PATH environment variable using below command
+    export PATH=/opt/apache-maven-3.6.3/bin:$PATH
+8) Then we can check the maven version installed using below command
+    mvn --version.
