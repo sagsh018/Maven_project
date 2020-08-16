@@ -1,0 +1,155 @@
+COMPILING JAVA
+==============
+
+Introduction
+============
+1) So here we are going to first understand how to compile simple java code (Hello world) on command line and see the 
+    entire process of compiling the java code and conversion of that to java byte code.
+2) We want to check the java code compilation at groud level so that we can understand what maven does under the 
+    covers.
+
+Review Java compile and packaging
+=================================
+
+1) Java compile process
+
+Source Files           Java compiler          Class files                       The JVM Runtime
+============                                  ===========                       ===============
+MyJavaClass.java                              MyJavaClass.class                 So here all the bytecodes(.class) files
+MyGroovyClass.groovy        =>                MyGroovyClass.class       =>      executed and that makes java plateform
+MyScalaClass.scala          =>                MyScalaClass.class        =>      independent.
+MyKotlinClass.kt                              MyKotlinClass.class
+
+Note :: The JVM Runtime makes java plateform independent but it itself is plateform dependent.
+        So you have to install the JVM specific to the plateform before running the class file.
+    
+2) Packaging Java Application
+    Note that java application comprises of tons of java class files. So we basically Zip compress all of these
+    class files into an archive like *.jar, *.war, *.ear and when we want to deploy these applications on the system
+    having JVM running these class files are unzipped and given to JVM to run.
+
+Many Class Files        Zip Compression         *.jar, *.war, *.ear             Uzip            JVM Runtime
+================                                                                                ===========    
+MyJavaClass.class                                   archives                    =>              To run the java byte code
+MyGroovyClass.class         =>                                                  =>
+MyScalaClass.class          =>                                                  =>
+MyKotlinClass.class
+
+3) Types of Java packaging
+
+    a) *.jar ==> Java Archive - Zip file containing one or more java class file
+    b) *.war ==> Web appliation archive - Zip file containing web application. Include one or more jar files, java  
+                    class files and web resources.
+    c) *.ear ==> Enterprise archive - Zip files containing one or more war files.
+    d) Fat JAR ==> Executable jar containing all dependencies. (used in spring boot)
+    e) Docker container ==> Docker image containing runtime environment, JVM  and java package.
+
+4) Java Deployments
+
+    a) Simple jar files are typically collection of class files used to compose applications.
+        They are not a complete applications
+    b) WAR, EAR files are typically complete applications which are deployed to application servers like tomcat, webspere
+    c) Fat/Uber Jar are typically complete applications which contain embedded application servers. These can be 
+        deployed standalone.
+    d) Docker images are complete applications too and can be deployed stand alone too. they usually contain Fat JAR.
+
+5) Hello World Java commnd line
+
+So here we are just going to write a simple java program using VScode editor for windows and VIM for linux.
+and try to compile and run that using command line
+
+Simple Java program
+====================
+public class HelloWorld{
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
+}
+We will save this as HelloWorld.java file. To complile it run the below command
+# javac HelloWorld.java
+now after compilation with above command, we will have another byte code file named as HelloWorld.class. It is this class
+file which JVM is going to run. To run this class file we can use below command
+# java HelloWorld
+and this is going to print : Hello World
+So in above example we have have two files 
+    a) HelloWorld.java - Which is Source code
+    b) HelloWorld.class - Which is byte code
+So this is what we are going to ask Maven to do for us: It will take our source code, compile it and create .class files
+and then package them into *.jar's, *.war's or other archives.
+
+6) Creating Java jar files using command line.
+So lets go ahead and create a jar package using the class file we have created in our example.
+# jar cf testapp.jar HelloWorld.class
+So now if we list down the files we have 
+-rw-r--r-- 1 Sagar 197121  425 Aug 16 18:08  HelloWorld.class
+-rw-r--r-- 1 Sagar 197121  124 Aug 16 18:08  HelloWorld.java
+-rw-r--r-- 1 Sagar 197121  748 Aug 16 18:25  testapp.jar
+In order to run this .jar file we can do the below
+# java -classpath testapp.jar HelloWorld
+o/p: Hello World
+So this command above to run .jar file has few things to notice:
+    a) we are adding the jar file firstly to the class path and then asking java to run the main class file HelloWorld
+    b) This command is running the java class file out of the .jar file.
+Also lets take a closer look at the jar file we have. lets make a directory named as temp here and move the jar file
+into that
+# mkdir temp
+# mv testapp.jar temp/
+# cd temp
+# ls -l
+o/p
+-rw-r--r-- 1 Sagar 197121 748 Aug 16 18:25 testapp.jar
+Now since this is a zipped file. lets unzip it
+# unzip testapp.jar
+# ls -l
+-rw-r--r-- 1 Sagar 197121 425 Aug 16 18:08 HelloWorld.class
+drwxr-xr-x 1 Sagar 197121   0 Aug 16 18:25 META-INF
+-rw-r--r-- 1 Sagar 197121 748 Aug 16 18:25 testapp.jar
+So we have new directory here named as META-INF
+# cd META-INF
+# ls -l 
+ -rw-r--r-- 1 Sagar 197121 63 Aug 16 18:25 MANIFEST.MF
+So this is just a text file, if we open it using our editor 
+    Manifest-Version: 1.0
+    Created-By: 11.0.7 (Amazon.com Inc.)
+So this file is part of jar specification
+We are going to understand what we can mention in this file later.
+but for now: we can add the main class file in that manifest.mf file.
+This whole thing ca be done with the help of maven.
+
+7) Using 3rd party jar's with command line.
+
+So lets download another 3rd part jar file named as "commons-lang3-3.8.1.jar" and add it to another directory 
+named as lib/
+# cd lib
+# ls -l
+-rw-r--r-- 1 Sagar 197121 501879 Aug 16 18:51 commons-lang3-3.8.1.jar
+So this is an apache project and it got verity of string Utils in there and we are going to use it with our HelloWorld
+sample source code.
+# cd ..
+# pwd
+    /c/Users/Sagar/projects/Maven_project/example
+# ls -l
+-rw-r--r-- 1 Sagar 197121 425 Aug 16 18:08 HelloWorld.class
+-rw-r--r-- 1 Sagar 197121 124 Aug 16 18:08 HelloWorld.java
+drwxr-xr-x 1 Sagar 197121   0 Aug 16 18:53 lib
+drwxr-xr-x 1 Sagar 197121   0 Aug 16 19:04 temp
+# code HelloWorld.java
+
+import org.apache.commons.lang3.StringUtils;
+
+// So notice that we have imported the StringUtils class from one of the open source apache library 
+
+public class HelloWorld{
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+        System.out.println(StringUtils.capitalize("hello world"));
+    }
+}
+
+Now we have to compile this source code again in order to take modifications in place( where hello world will be printed
+with capital Hello world)
+
+# javac -classpath ./lib/* HelloWorld.java
+
+and now we have to run the class file we get after above compilation
+# java -classpath lib/*\;./ HelloWorld
